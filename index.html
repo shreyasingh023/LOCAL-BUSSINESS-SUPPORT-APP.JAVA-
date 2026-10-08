@@ -1,0 +1,3220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ShopMate - Local Business Support App</title>
+
+    <style>
+
+        /* =========================================================
+           GENERAL
+        ========================================================= */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #e8f1ff;
+            color: #34495e;
+            line-height: 1.6;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font-family: inherit;
+        }
+
+
+        /* =========================================================
+           HEADER
+        ========================================================= */
+
+        header {
+            background: #176985;
+            color: white;
+            min-height: 82px;
+            padding: 12px 35px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+        }
+
+        .logo-area h1 {
+            font-size: 28px;
+            margin-bottom: 0;
+        }
+
+        .logo-area p {
+            font-size: 13px;
+            margin-top: -3px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        nav a,
+        nav button {
+            color: white;
+            text-decoration: none;
+
+            background: transparent;
+
+            border: 1px solid rgba(255,255,255,0.45);
+
+            padding: 8px 12px;
+
+            border-radius: 5px;
+
+            cursor: pointer;
+
+            font-size: 14px;
+        }
+
+        nav a:hover,
+        nav button:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+
+        /* =========================================================
+           LOGIN / REGISTER PAGE
+        ========================================================= */
+
+        #auth-screen {
+
+            min-height: calc(100vh - 82px);
+
+            background: #e8f1ff;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            padding: 30px 15px;
+        }
+
+
+        .auth-card {
+
+            width: 435px;
+
+            background: white;
+
+            border-radius: 9px;
+
+            padding: 18px 23px 20px;
+
+            box-shadow:
+                0 2px 10px rgba(0,0,0,0.08);
+        }
+
+
+        .auth-card h2 {
+
+            text-align: center;
+
+            color: #30465c;
+
+            font-size: 29px;
+
+            margin-bottom: 15px;
+        }
+
+
+        .form-group {
+
+            margin-bottom: 11px;
+        }
+
+
+        .form-group label {
+
+            display: block;
+
+            color: #405568;
+
+            font-size: 16px;
+
+            margin-bottom: 4px;
+        }
+
+
+        .form-group input,
+        .form-group select {
+
+            width: 100%;
+
+            height: 41px;
+
+            padding: 8px 13px;
+
+            border: 1px solid #d4d4d4;
+
+            border-radius: 5px;
+
+            font-size: 15px;
+
+            color: #53677b;
+
+            background: white;
+        }
+
+
+        .form-group textarea {
+
+            width: 100%;
+
+            padding: 10px;
+
+            border: 1px solid #d4d4d4;
+
+            border-radius: 5px;
+
+            resize: vertical;
+        }
+
+
+        .auth-button {
+
+            width: 100%;
+
+            height: 43px;
+
+            margin-top: 10px;
+
+            border: none;
+
+            border-radius: 5px;
+
+            background: #429bad;
+
+            color: white;
+
+            font-size: 16px;
+
+            cursor: pointer;
+        }
+
+
+        .auth-button:hover {
+
+            background: #348b9d;
+        }
+
+
+        .switch-text {
+
+            text-align: center;
+
+            margin-top: 14px;
+
+            font-size: 14px;
+        }
+
+
+        .switch-text a {
+
+            color: #176985;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            text-decoration: none;
+        }
+
+
+        .message {
+
+            text-align: center;
+
+            margin-top: 8px;
+
+            font-size: 13px;
+
+            min-height: 18px;
+        }
+
+
+        /* =========================================================
+           MAIN APPLICATION
+        ========================================================= */
+
+        #app {
+
+            display: none;
+        }
+
+
+        main {
+
+            max-width: 1200px;
+
+            margin: auto;
+
+            padding: 25px;
+        }
+
+
+        section {
+
+            background: white;
+
+            padding: 25px;
+
+            margin-bottom: 25px;
+
+            border-radius: 8px;
+
+            box-shadow:
+                0 2px 8px rgba(0,0,0,0.06);
+        }
+
+
+        section h2 {
+
+            color: #176985;
+
+            margin-bottom: 15px;
+        }
+
+
+        section h3 {
+
+            color: #34495e;
+
+            margin-top: 18px;
+
+            margin-bottom: 10px;
+        }
+
+
+        /* =========================================================
+           DASHBOARD HOME
+        ========================================================= */
+
+        .welcome-box {
+
+            background: #eef8fa;
+
+            border-left: 5px solid #429bad;
+
+            padding: 20px;
+
+            border-radius: 5px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .welcome-box h2 {
+
+            margin-bottom: 5px;
+        }
+
+
+        .service-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(210px, 1fr));
+
+            gap: 15px;
+
+            margin-top: 20px;
+        }
+
+
+        .service-card {
+
+            border: 1px solid #dce4ea;
+
+            padding: 20px;
+
+            border-radius: 8px;
+
+            background: #fff;
+
+            transition: 0.2s;
+        }
+
+
+        .service-card:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 4px 12px rgba(0,0,0,0.08);
+        }
+
+
+        .service-card h3 {
+
+            margin-top: 0;
+
+            color: #176985;
+        }
+
+
+        .service-card a {
+
+            display: inline-block;
+
+            margin-top: 8px;
+
+            color: #176985;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+
+        /* =========================================================
+           FORMS
+        ========================================================= */
+
+        .app-form {
+
+            max-width: 650px;
+        }
+
+
+        .app-form label {
+
+            display: block;
+
+            margin-top: 12px;
+
+            margin-bottom: 5px;
+
+            font-weight: 500;
+        }
+
+
+        .app-form input,
+        .app-form select,
+        .app-form textarea {
+
+            width: 100%;
+
+            padding: 10px;
+
+            border: 1px solid #ccd6df;
+
+            border-radius: 5px;
+        }
+
+
+        .primary-button {
+
+            margin-top: 15px;
+
+            padding: 10px 18px;
+
+            border: none;
+
+            border-radius: 5px;
+
+            background: #429bad;
+
+            color: white;
+
+            cursor: pointer;
+        }
+
+
+        .primary-button:hover {
+
+            background: #348b9d;
+        }
+
+
+        /* =========================================================
+           BUSINESS CARDS
+        ========================================================= */
+
+        .business-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(260px, 1fr));
+
+            gap: 18px;
+        }
+
+
+        .business-card {
+
+            border: 1px solid #dce4ea;
+
+            border-radius: 8px;
+
+            padding: 20px;
+
+            background: white;
+        }
+
+
+        .business-card h3 {
+
+            margin-top: 0;
+
+            color: #176985;
+        }
+
+
+        .business-card a {
+
+            color: #176985;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+
+        /* =========================================================
+           TABLES
+        ========================================================= */
+
+        .table-container {
+
+            overflow-x: auto;
+        }
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            margin-top: 15px;
+        }
+
+
+        th,
+        td {
+
+            border: 1px solid #d7dfe6;
+
+            padding: 10px;
+
+            text-align: left;
+        }
+
+
+        th {
+
+            background: #176985;
+
+            color: white;
+        }
+
+
+        tr:nth-child(even) {
+
+            background: #f7f9fb;
+        }
+
+
+        /* =========================================================
+           ADMIN CARDS
+        ========================================================= */
+
+        .admin-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(180px, 1fr));
+
+            gap: 15px;
+
+            margin: 20px 0;
+        }
+
+
+        .admin-card {
+
+            background: #eef7fa;
+
+            border: 1px solid #d4e6eb;
+
+            border-radius: 7px;
+
+            padding: 18px;
+
+            text-align: center;
+        }
+
+
+        .admin-card h3 {
+
+            color: #176985;
+
+            margin: 0 0 5px;
+        }
+
+
+        .admin-card p {
+
+            font-size: 25px;
+
+            font-weight: bold;
+        }
+
+
+        /* =========================================================
+           FOOTER
+        ========================================================= */
+
+        footer {
+
+            background: #176985;
+
+            color: white;
+
+            text-align: center;
+
+            padding: 25px;
+
+            margin-top: 20px;
+        }
+
+
+        footer a {
+
+            color: white;
+
+            text-decoration: none;
+
+            margin: 0 5px;
+        }
+
+
+        /* =========================================================
+           MOBILE
+        ========================================================= */
+
+        @media (max-width: 800px) {
+
+            header {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 12px;
+            }
+
+            nav {
+
+                justify-content: flex-start;
+            }
+
+            main {
+
+                padding: 15px;
+            }
+
+            .auth-card {
+
+                width: 100%;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header>
+
+    <div class="logo-area">
+
+        <h1>ShopMate</h1>
+
+        <p>Local Business Support App</p>
+
+    </div>
+
+
+    <!-- BEFORE LOGIN -->
+
+    <nav id="public-nav">
+
+        <a href="#login">Login</a>
+
+        <a href="#register">Register</a>
+
+    </nav>
+
+
+    <!-- AFTER LOGIN -->
+
+    <nav id="private-nav" class="hidden">
+
+        <a href="#dashboard">Dashboard</a>
+
+        <a href="#search">Search</a>
+
+        <a href="#businesses">Businesses</a>
+
+        <a href="#service-request">Services</a>
+
+        <a href="#review">Reviews</a>
+
+        <a href="#notifications">Notifications</a>
+
+        <a href="#contact">Contact</a>
+
+        <button id="logoutButton">Logout</button>
+
+    </nav>
+
+</header>
+
+
+
+<!-- =========================================================
+     LOGIN / REGISTER SCREEN
+========================================================= -->
+
+<div id="auth-screen">
+
+    <div class="auth-card">
+
+
+        <!-- ================= LOGIN ================= -->
+
+        <div id="login-panel">
+
+            <h2>Login</h2>
+
+
+            <form id="loginForm">
+
+
+                <div class="form-group">
+
+                    <label for="loginEmail">
+                        Email / User Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="loginEmail"
+                        placeholder="Please enter user name"
+                        required
+                    >
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label for="loginPassword">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="loginPassword"
+                        placeholder="Please enter password"
+                        required
+                    >
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label for="loginRole">
+                        Login As
+                    </label>
+
+                    <select id="loginRole">
+
+                        <option value="user">
+                            User
+                        </option>
+
+                        <option value="business">
+                            Business Owner
+                        </option>
+
+                        <option value="admin">
+                            Admin
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <button
+                    type="submit"
+                    class="auth-button"
+                >
+                    Login
+                </button>
+
+
+                <p
+                    id="loginMessage"
+                    class="message"
+                ></p>
+
+
+            </form>
+
+
+
+            <p class="switch-text">
+
+                Don't have an account?
+
+                <a id="showRegister">
+                    Register here
+                </a>
+
+            </p>
+
+
+        </div>
+
+
+
+        <!-- ================= REGISTER ================= -->
+
+        <div
+            id="register-panel"
+            class="hidden"
+        >
+
+            <h2>Register</h2>
+
+
+            <form id="registerForm">
+
+
+                <div class="form-group">
+
+                    <label>
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="registerName"
+                        placeholder="Enter your full name"
+                        required
+                    >
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label>
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="registerEmail"
+                        placeholder="Enter your email"
+                        required
+                    >
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label>
+                        Phone Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="registerPhone"
+                        placeholder="Enter phone number"
+                        required
+                    >
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label>
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="registerPassword"
+                        placeholder="Create password"
+                        required
+                    >
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label>
+                        Confirm Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        placeholder="Confirm password"
+                        required
+                    >
+
+                </div>
+
+
+
+                <button
+                    type="submit"
+                    class="auth-button"
+                >
+                    Create Account
+                </button>
+
+
+                <p
+                    id="registerMessage"
+                    class="message"
+                ></p>
+
+
+            </form>
+
+
+
+            <p class="switch-text">
+
+                Already registered?
+
+                <a id="showLogin">
+                    Login here
+                </a>
+
+            </p>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     COMPLETE APPLICATION
+========================================================= -->
+
+<div id="app">
+
+
+<main>
+
+
+<!-- =========================================================
+     DASHBOARD HOME
+========================================================= -->
+
+<section id="dashboard">
+
+    <div class="welcome-box">
+
+        <h2 id="welcomeTitle">
+            Welcome to ShopMate
+        </h2>
+
+        <p id="welcomeText">
+            Your local business support platform.
+        </p>
+
+    </div>
+
+
+    <h2>ShopMate Dashboard</h2>
+
+
+    <div class="service-grid">
+
+
+        <div class="service-card">
+
+            <h3>Search Businesses</h3>
+
+            <p>
+                Search local businesses by name,
+                category and location.
+            </p>
+
+            <a href="#search">
+                Open Search
+            </a>
+
+        </div>
+
+
+
+        <div class="service-card">
+
+            <h3>Local Businesses</h3>
+
+            <p>
+                View available local businesses
+                and their information.
+            </p>
+
+            <a href="#businesses">
+                View Businesses
+            </a>
+
+        </div>
+
+
+
+        <div class="service-card">
+
+            <h3>Service Request</h3>
+
+            <p>
+                Request a service from a
+                local business.
+            </p>
+
+            <a href="#service-request">
+                Request Service
+            </a>
+
+        </div>
+
+
+
+        <div class="service-card">
+
+            <h3>Reviews & Feedback</h3>
+
+            <p>
+                Give ratings and reviews
+                to businesses.
+            </p>
+
+            <a href="#review">
+                Write Review
+            </a>
+
+        </div>
+
+
+
+        <div class="service-card">
+
+            <h3>Notifications</h3>
+
+            <p>
+                View your latest notifications
+                and updates.
+            </p>
+
+            <a href="#notifications">
+                View Notifications
+            </a>
+
+        </div>
+
+
+
+        <div class="service-card">
+
+            <h3>Business Registration</h3>
+
+            <p>
+                Register your local business
+                on ShopMate.
+            </p>
+
+            <a href="#business-register">
+                Register Business
+            </a>
+
+        </div>
+
+
+
+        <div class="service-card">
+
+            <h3>Contact</h3>
+
+            <p>
+                Contact ShopMate support.
+            </p>
+
+            <a href="#contact">
+                Contact Us
+            </a>
+
+        </div>
+
+
+
+        <div
+            class="service-card"
+            id="adminDashboardCard"
+        >
+
+            <h3>Admin Dashboard</h3>
+
+            <p>
+                Manage users, businesses,
+                reviews and requests.
+            </p>
+
+            <a href="#admin-dashboard">
+                Open Admin Dashboard
+            </a>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     SEARCH
+========================================================= -->
+
+<section id="search">
+
+    <h2>Search Local Business</h2>
+
+
+    <form class="app-form">
+
+
+        <label>
+            Business Name
+        </label>
+
+        <input
+            type="text"
+            placeholder="Enter business name"
+        >
+
+
+
+        <label>
+            Category
+        </label>
+
+        <select>
+
+            <option>
+                Select Category
+            </option>
+
+            <option>
+                Restaurant
+            </option>
+
+            <option>
+                Grocery Store
+            </option>
+
+            <option>
+                Salon
+            </option>
+
+            <option>
+                Hospital
+            </option>
+
+            <option>
+                Repair Service
+            </option>
+
+            <option>
+                Education
+            </option>
+
+            <option>
+                Electronics
+            </option>
+
+            <option>
+                Automobile
+            </option>
+
+            <option>
+                Other
+            </option>
+
+        </select>
+
+
+
+        <label>
+            Location
+        </label>
+
+        <input
+            type="text"
+            placeholder="City or Area"
+        >
+
+
+        <button
+            type="button"
+            class="primary-button"
+        >
+            Search Business
+        </button>
+
+    </form>
+
+</section>
+
+
+
+<!-- =========================================================
+     BUSINESSES
+========================================================= -->
+
+<section id="businesses">
+
+    <h2>Available Local Businesses</h2>
+
+
+    <div class="business-grid">
+
+
+        <div class="business-card">
+
+            <h3>ABC Restaurant</h3>
+
+            <p>
+                <strong>Category:</strong>
+                Restaurant
+            </p>
+
+            <p>
+                <strong>Location:</strong>
+                Greater Noida
+            </p>
+
+            <p>
+                <strong>Phone:</strong>
+                9135092735
+            </p>
+
+            <p>
+                Local restaurant providing
+                food and dining services.
+            </p>
+
+            <a href="#business-details">
+                View Details
+            </a>
+
+        </div>
+
+
+
+        <div class="business-card">
+
+            <h3>City Electronics</h3>
+
+            <p>
+                <strong>Category:</strong>
+                Electronics
+            </p>
+
+            <p>
+                <strong>Location:</strong>
+                Noida
+            </p>
+
+            <p>
+                <strong>Phone:</strong>
+                9876501234
+            </p>
+
+            <p>
+                Electronics sales and
+                repair services.
+            </p>
+
+            <a href="#business-details">
+                View Details
+            </a>
+
+        </div>
+
+
+
+        <div class="business-card">
+
+            <h3>Smart Salon</h3>
+
+            <p>
+                <strong>Category:</strong>
+                Salon
+            </p>
+
+            <p>
+                <strong>Location:</strong>
+                Greater Noida
+            </p>
+
+            <p>
+                <strong>Phone:</strong>
+                9876512345
+            </p>
+
+            <p>
+                Hair, beauty and
+                personal care services.
+            </p>
+
+            <a href="#business-details">
+                View Details
+            </a>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     BUSINESS DETAILS
+========================================================= -->
+
+<section id="business-details">
+
+    <h2>Business Details</h2>
+
+
+    <h3>ABC Restaurant</h3>
+
+
+    <p>
+        <strong>Business ID:</strong>
+        B001
+    </p>
+
+    <p>
+        <strong>Business Name:</strong>
+        ABC Restaurant
+    </p>
+
+    <p>
+        <strong>Owner:</strong>
+        Rahul Kumar
+    </p>
+
+    <p>
+        <strong>Category:</strong>
+        Restaurant
+    </p>
+
+    <p>
+        <strong>Location:</strong>
+        Greater Noida, Uttar Pradesh
+    </p>
+
+    <p>
+        <strong>Phone:</strong>
+        9135092735
+    </p>
+
+    <p>
+        <strong>Email:</strong>
+        abcrestaurant@example.com
+    </p>
+
+
+    <p>
+        <strong>Description:</strong>
+        ABC Restaurant provides quality
+        food and dining services to local customers.
+    </p>
+
+
+    <h3>Services</h3>
+
+    <ul>
+
+        <li>Breakfast</li>
+
+        <li>Lunch</li>
+
+        <li>Dinner</li>
+
+        <li>Online Food Order</li>
+
+        <li>Home Delivery</li>
+
+    </ul>
+
+</section>
+
+
+
+<!-- =========================================================
+     BUSINESS REGISTRATION
+========================================================= -->
+
+<section id="business-register">
+
+    <h2>Register Your Business</h2>
+
+
+    <form class="app-form">
+
+
+        <label>
+            Business Name
+        </label>
+
+        <input
+            type="text"
+            required
+        >
+
+
+        <label>
+            Owner Name
+        </label>
+
+        <input
+            type="text"
+            required
+        >
+
+
+        <label>
+            Email
+        </label>
+
+        <input
+            type="email"
+            required
+        >
+
+
+        <label>
+            Phone
+        </label>
+
+        <input
+            type="tel"
+            required
+        >
+
+
+        <label>
+            Category
+        </label>
+
+        <select required>
+
+            <option>
+                Select Category
+            </option>
+
+            <option>Restaurant</option>
+
+            <option>Grocery</option>
+
+            <option>Salon</option>
+
+            <option>Hospital</option>
+
+            <option>Repair</option>
+
+            <option>Education</option>
+
+            <option>Electronics</option>
+
+            <option>Automobile</option>
+
+            <option>Other</option>
+
+        </select>
+
+
+        <label>
+            Business Address
+        </label>
+
+        <textarea
+            rows="4"
+            required
+        ></textarea>
+
+
+        <label>
+            Business Description
+        </label>
+
+        <textarea
+            rows="4"
+        ></textarea>
+
+
+        <label>
+            Opening Time
+        </label>
+
+        <input type="time">
+
+
+        <label>
+            Closing Time
+        </label>
+
+        <input type="time">
+
+
+        <button
+            type="button"
+            class="primary-button"
+        >
+            Register Business
+        </button>
+
+    </form>
+
+</section>
+
+
+
+<!-- =========================================================
+     SERVICE REQUEST
+========================================================= -->
+
+<section id="service-request">
+
+    <h2>Service Request</h2>
+
+
+    <form class="app-form">
+
+
+        <label>
+            User Name
+        </label>
+
+        <input
+            type="text"
+            required
+        >
+
+
+        <label>
+            Business
+        </label>
+
+        <select required>
+
+            <option>
+                Select Business
+            </option>
+
+            <option>
+                ABC Restaurant
+            </option>
+
+            <option>
+                City Electronics
+            </option>
+
+            <option>
+                Smart Salon
+            </option>
+
+        </select>
+
+
+        <label>
+            Service Required
+        </label>
+
+        <input
+            type="text"
+            required
+        >
+
+
+        <label>
+            Preferred Date
+        </label>
+
+        <input
+            type="date"
+            required
+        >
+
+
+        <label>
+            Preferred Time
+        </label>
+
+        <input type="time">
+
+
+        <label>
+            Request Description
+        </label>
+
+        <textarea rows="5"></textarea>
+
+
+        <button
+            type="button"
+            class="primary-button"
+        >
+            Submit Service Request
+        </button>
+
+    </form>
+
+</section>
+
+
+
+<!-- =========================================================
+     REVIEWS
+========================================================= -->
+
+<section id="review">
+
+    <h2>Write a Review</h2>
+
+
+    <form class="app-form">
+
+
+        <label>
+            Select Business
+        </label>
+
+        <select required>
+
+            <option>
+                Select Business
+            </option>
+
+            <option>
+                ABC Restaurant
+            </option>
+
+            <option>
+                City Electronics
+            </option>
+
+            <option>
+                Smart Salon
+            </option>
+
+        </select>
+
+
+        <label>
+            Rating
+        </label>
+
+        <select required>
+
+            <option>
+                Select Rating
+            </option>
+
+            <option>
+                5 - Excellent
+            </option>
+
+            <option>
+                4 - Very Good
+            </option>
+
+            <option>
+                3 - Good
+            </option>
+
+            <option>
+                2 - Average
+            </option>
+
+            <option>
+                1 - Poor
+            </option>
+
+        </select>
+
+
+        <label>
+            Review
+        </label>
+
+        <textarea
+            rows="6"
+            required
+        ></textarea>
+
+
+        <button
+            type="button"
+            class="primary-button"
+        >
+            Submit Review
+        </button>
+
+    </form>
+
+</section>
+
+
+
+<!-- =========================================================
+     USER DASHBOARD
+========================================================= -->
+
+<section id="user-dashboard">
+
+    <h2>User Dashboard</h2>
+
+
+    <h3>Welcome User</h3>
+
+
+    <div class="service-grid">
+
+
+        <div class="service-card">
+
+            <h3>Search Businesses</h3>
+
+            <a href="#search">
+                Search
+            </a>
+
+        </div>
+
+
+        <div class="service-card">
+
+            <h3>Request Service</h3>
+
+            <a href="#service-request">
+                Request Service
+            </a>
+
+        </div>
+
+
+        <div class="service-card">
+
+            <h3>Write Review</h3>
+
+            <a href="#review">
+                Write Review
+            </a>
+
+        </div>
+
+
+        <div class="service-card">
+
+            <h3>Notifications</h3>
+
+            <a href="#notifications">
+                View Notifications
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <h3>My Service Requests</h3>
+
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Request ID
+                    </th>
+
+                    <th>
+                        Business
+                    </th>
+
+                    <th>
+                        Service
+                    </th>
+
+                    <th>
+                        Date
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        SR001
+                    </td>
+
+                    <td>
+                        ABC Restaurant
+                    </td>
+
+                    <td>
+                        Food Delivery
+                    </td>
+
+                    <td>
+                        2026-10-05
+                    </td>
+
+                    <td>
+                        Pending
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        SR002
+                    </td>
+
+                    <td>
+                        City Electronics
+                    </td>
+
+                    <td>
+                        Repair
+                    </td>
+
+                    <td>
+                        2026-10-06
+                    </td>
+
+                    <td>
+                        Completed
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     BUSINESS OWNER DASHBOARD
+========================================================= -->
+
+<section id="business-dashboard">
+
+    <h2>Business Owner Dashboard</h2>
+
+
+    <h3>Business Information</h3>
+
+
+    <div class="table-container">
+
+        <table>
+
+            <tr>
+
+                <th>
+                    Business ID
+                </th>
+
+                <td>
+                    B001
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <th>
+                    Business Name
+                </th>
+
+                <td>
+                    ABC Restaurant
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <th>
+                    Owner
+                </th>
+
+                <td>
+                    Rahul Kumar
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <th>
+                    Category
+                </th>
+
+                <td>
+                    Restaurant
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <th>
+                    Location
+                </th>
+
+                <td>
+                    Greater Noida
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <th>
+                    Phone
+                </th>
+
+                <td>
+                    9876543210
+                </td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+
+    <h3>Business Actions</h3>
+
+
+    <div class="service-grid">
+
+        <div class="service-card">
+            Add Business Information
+        </div>
+
+        <div class="service-card">
+            Update Business Information
+        </div>
+
+        <div class="service-card">
+            View Service Requests
+        </div>
+
+        <div class="service-card">
+            Accept Service Request
+        </div>
+
+        <div class="service-card">
+            Reject Service Request
+        </div>
+
+        <div class="service-card">
+            Update Request Status
+        </div>
+
+        <div class="service-card">
+            View Customer Reviews
+        </div>
+
+        <div class="service-card">
+            Send Notifications
+        </div>
+
+    </div>
+
+
+    <h3>Service Requests</h3>
+
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Request ID
+                    </th>
+
+                    <th>
+                        Customer
+                    </th>
+
+                    <th>
+                        Service
+                    </th>
+
+                    <th>
+                        Date
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        SR001
+                    </td>
+
+                    <td>
+                        Amit Kumar
+                    </td>
+
+                    <td>
+                        Food Delivery
+                    </td>
+
+                    <td>
+                        2026-10-05
+                    </td>
+
+                    <td>
+                        Pending
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        SR002
+                    </td>
+
+                    <td>
+                        Rahul Singh
+                    </td>
+
+                    <td>
+                        Table Booking
+                    </td>
+
+                    <td>
+                        2026-10-06
+                    </td>
+
+                    <td>
+                        Accepted
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     ADMIN DASHBOARD
+========================================================= -->
+
+<section id="admin-dashboard">
+
+    <h2>Admin Dashboard</h2>
+
+
+    <div class="welcome-box">
+
+        <h3>
+            Admin Control Panel
+        </h3>
+
+        <p>
+            Manage the complete ShopMate platform.
+        </p>
+
+    </div>
+
+
+    <!-- ADMIN SUMMARY -->
+
+    <div class="admin-grid">
+
+
+        <div class="admin-card">
+
+            <h3>
+                Users
+            </h3>
+
+            <p>
+                120
+            </p>
+
+        </div>
+
+
+        <div class="admin-card">
+
+            <h3>
+                Businesses
+            </h3>
+
+            <p>
+                45
+            </p>
+
+        </div>
+
+
+        <div class="admin-card">
+
+            <h3>
+                Pending Businesses
+            </h3>
+
+            <p>
+                5
+            </p>
+
+        </div>
+
+
+        <div class="admin-card">
+
+            <h3>
+                Reviews
+            </h3>
+
+            <p>
+                86
+            </p>
+
+        </div>
+
+
+        <div class="admin-card">
+
+            <h3>
+                Service Requests
+            </h3>
+
+            <p>
+                32
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ADMIN FUNCTIONS -->
+
+    <h3>
+        Admin Functions
+    </h3>
+
+
+    <div class="service-grid">
+
+
+        <div class="service-card">
+
+            <h3>
+                Manage Users
+            </h3>
+
+            <p>
+                View, update or block users.
+            </p>
+
+        </div>
+
+
+        <div class="service-card">
+
+            <h3>
+                Manage Businesses
+            </h3>
+
+            <p>
+                Manage registered businesses.
+            </p>
+
+        </div>
+
+
+        <div class="service-card">
+
+            <h3>
+                Manage Categories
+            </h3>
+
+            <p>
+                Add or update business categories.
+            </p>
+
+        </div>
+
+
+        <div class="service-card">
+
+            <h3>
+                Manage Locations
+            </h3>
+
+            <p>
+                Manage available business locations.
+            </p>
+
+        </div>
+
+
+        <div class="service-card">
+
+            <h3>
+                Manage Reviews
+            </h3>
+
+            <p>
+                View and manage customer reviews.
+            </p>
+
+        </div>
+
+
+        <div class="service-card">
+
+            <h3>
+                Manage Requests
+            </h3>
+
+            <p>
+                Manage customer service requests.
+            </p>
+
+        </div>
+
+
+        <div class="service-card">
+
+            <h3>
+                Notifications
+            </h3>
+
+            <p>
+                Manage system notifications.
+            </p>
+
+        </div>
+
+
+        <div class="service-card">
+
+            <h3>
+                Generate Reports
+            </h3>
+
+            <p>
+                Generate system reports.
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- USER MANAGEMENT -->
+
+    <h3>
+        User Management
+    </h3>
+
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        User ID
+                    </th>
+
+                    <th>
+                        Name
+                    </th>
+
+                    <th>
+                        Email
+                    </th>
+
+                    <th>
+                        Phone
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        U001
+                    </td>
+
+                    <td>
+                        Amit Kumar
+                    </td>
+
+                    <td>
+                        amit@example.com
+                    </td>
+
+                    <td>
+                        9876543210
+                    </td>
+
+                    <td>
+                        Active
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        U002
+                    </td>
+
+                    <td>
+                        Rahul Singh
+                    </td>
+
+                    <td>
+                        rahul@example.com
+                    </td>
+
+                    <td>
+                        9876501234
+                    </td>
+
+                    <td>
+                        Active
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+
+    <!-- BUSINESS MANAGEMENT -->
+
+    <h3>
+        Business Management
+    </h3>
+
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Business ID
+                    </th>
+
+                    <th>
+                        Business Name
+                    </th>
+
+                    <th>
+                        Owner
+                    </th>
+
+                    <th>
+                        Category
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        B001
+                    </td>
+
+                    <td>
+                        ABC Restaurant
+                    </td>
+
+                    <td>
+                        Rahul Kumar
+                    </td>
+
+                    <td>
+                        Restaurant
+                    </td>
+
+                    <td>
+                        Approved
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        B002
+                    </td>
+
+                    <td>
+                        City Electronics
+                    </td>
+
+                    <td>
+                        Amit Kumar
+                    </td>
+
+                    <td>
+                        Electronics
+                    </td>
+
+                    <td>
+                        Pending
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     CATEGORIES
+========================================================= -->
+
+<section id="categories">
+
+    <h2>
+        Business Categories
+    </h2>
+
+
+    <div class="service-grid">
+
+        <div class="service-card">
+            Restaurant
+        </div>
+
+        <div class="service-card">
+            Grocery Store
+        </div>
+
+        <div class="service-card">
+            Salon
+        </div>
+
+        <div class="service-card">
+            Hospital
+        </div>
+
+        <div class="service-card">
+            Repair Service
+        </div>
+
+        <div class="service-card">
+            Education
+        </div>
+
+        <div class="service-card">
+            Electronics
+        </div>
+
+        <div class="service-card">
+            Automobile
+        </div>
+
+        <div class="service-card">
+            Home Services
+        </div>
+
+        <div class="service-card">
+            Other Services
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     LOCATIONS
+========================================================= -->
+
+<section id="locations">
+
+    <h2>
+        Business Locations
+    </h2>
+
+
+    <form class="app-form">
+
+        <label>
+            Select City
+        </label>
+
+
+        <select>
+
+            <option>
+                Select City
+            </option>
+
+            <option>
+                Greater Noida
+            </option>
+
+            <option>
+                Noida
+            </option>
+
+            <option>
+                Delhi
+            </option>
+
+            <option>
+                Ghaziabad
+            </option>
+
+        </select>
+
+
+        <button
+            type="button"
+            class="primary-button"
+        >
+            Find Businesses
+        </button>
+
+    </form>
+
+</section>
+
+
+
+<!-- =========================================================
+     NOTIFICATIONS
+========================================================= -->
+
+<section id="notifications">
+
+    <h2>
+        Notifications
+    </h2>
+
+
+    <ul>
+
+        <li>
+            Your service request SR001 is pending.
+        </li>
+
+        <li>
+            Your service request SR002 has been accepted.
+        </li>
+
+        <li>
+            ABC Restaurant has replied to your request.
+        </li>
+
+        <li>
+            Your review has been successfully submitted.
+        </li>
+
+    </ul>
+
+</section>
+
+
+
+<!-- =========================================================
+     CONTACT
+========================================================= -->
+
+<section id="contact">
+
+    <h2>
+        Contact Us
+    </h2>
+
+
+    <form class="app-form">
+
+
+        <label>
+            Name
+        </label>
+
+        <input
+            type="text"
+            required
+        >
+
+
+        <label>
+            Email
+        </label>
+
+        <input
+            type="email"
+            required
+        >
+
+
+        <label>
+            Message
+        </label>
+
+        <textarea
+            rows="6"
+            required
+        ></textarea>
+
+
+        <button
+            type="button"
+            class="primary-button"
+        >
+            Send Message
+        </button>
+
+    </form>
+
+</section>
+
+
+</main>
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer>
+
+    <h3>
+        ShopMate
+    </h3>
+
+    <p>
+        Supporting Local Businesses Through Technology
+    </p>
+
+    <p>
+
+        <a href="#dashboard">
+            Dashboard
+        </a>
+
+        |
+
+        <a href="#search">
+            Search
+        </a>
+
+        |
+
+        <a href="#businesses">
+            Businesses
+        </a>
+
+        |
+
+        <a href="#contact">
+            Contact
+        </a>
+
+    </p>
+
+    <p>
+        &copy; 2026 ShopMate.
+        All Rights Reserved.
+    </p>
+
+</footer>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+    /*
+     * ==========================================================
+     * SHOPMATE LOGIN / REGISTER SYSTEM
+     * ==========================================================
+     *
+     * This is currently frontend authentication.
+     *
+     * Later:
+     * Java + MySQL/JDBC can replace this section.
+     *
+     */
+
+
+    const authScreen =
+        document.getElementById("auth-screen");
+
+    const app =
+        document.getElementById("app");
+
+    const loginPanel =
+        document.getElementById("login-panel");
+
+    const registerPanel =
+        document.getElementById("register-panel");
+
+    const publicNav =
+        document.getElementById("public-nav");
+
+    const privateNav =
+        document.getElementById("private-nav");
+
+
+    /* ==========================================================
+       SHOW REGISTER
+    ========================================================== */
+
+    document
+        .getElementById("showRegister")
+        .addEventListener("click", function () {
+
+            loginPanel.classList.add("hidden");
+
+            registerPanel.classList.remove("hidden");
+
+        });
+
+
+
+    /* ==========================================================
+       SHOW LOGIN
+    ========================================================== */
+
+    document
+        .getElementById("showLogin")
+        .addEventListener("click", function () {
+
+            registerPanel.classList.add("hidden");
+
+            loginPanel.classList.remove("hidden");
+
+        });
+
+
+
+    /* ==========================================================
+       REGISTER
+    ========================================================== */
+
+    document
+        .getElementById("registerForm")
+        .addEventListener("submit", function (event) {
+
+            event.preventDefault();
+
+
+            const name =
+                document.getElementById("registerName").value;
+
+            const email =
+                document.getElementById("registerEmail").value;
+
+            const phone =
+                document.getElementById("registerPhone").value;
+
+            const password =
+                document.getElementById("registerPassword").value;
+
+            const confirmPassword =
+                document.getElementById("confirmPassword").value;
+
+
+            const message =
+                document.getElementById("registerMessage");
+
+
+            if (password !== confirmPassword) {
+
+                message.textContent =
+                    "Passwords do not match.";
+
+                message.style.color = "#c0392b";
+
+                return;
+            }
+
+
+            /*
+             * Save demo registration data.
+             *
+             * This will later be replaced
+             * with Java + MySQL.
+             */
+
+            const user = {
+
+                name: name,
+
+                email: email,
+
+                phone: phone,
+
+                password: password
+
+            };
+
+
+            localStorage.setItem(
+                "shopmateUser",
+                JSON.stringify(user)
+            );
+
+
+            message.textContent =
+                "Registration successful. Please login.";
+
+            message.style.color =
+                "#18794e";
+
+
+            setTimeout(function () {
+
+                registerPanel.classList.add("hidden");
+
+                loginPanel.classList.remove("hidden");
+
+
+                document.getElementById(
+                    "loginEmail"
+                ).value = email;
+
+
+                document
+                    .getElementById("registerForm")
+                    .reset();
+
+            }, 1000);
+
+        });
+
+
+
+    /* ==========================================================
+       LOGIN
+    ========================================================== */
+
+    document
+        .getElementById("loginForm")
+        .addEventListener("submit", function (event) {
+
+            event.preventDefault();
+
+
+            const email =
+                document.getElementById("loginEmail").value.trim();
+
+            const password =
+                document.getElementById("loginPassword").value.trim();
+
+            const role =
+                document.getElementById("loginRole").value;
+
+
+            const message =
+                document.getElementById("loginMessage");
+
+
+            if (email === "" || password === "") {
+
+                message.textContent =
+                    "Please enter username and password.";
+
+                message.style.color =
+                    "#c0392b";
+
+                return;
+            }
+
+
+            /*
+             * For the frontend prototype,
+             * any non-empty login is accepted.
+             *
+             * Later this will be replaced with:
+             *
+             * Java Servlet
+             *       ↓
+             * MySQL
+             *       ↓
+             * Authentication
+             */
+
+            localStorage.setItem(
+                "shopmateLoggedIn",
+                "true"
+            );
+
+            localStorage.setItem(
+                "shopmateRole",
+                role
+            );
+
+            localStorage.setItem(
+                "shopmateLoginEmail",
+                email
+            );
+
+
+            openApplication(role);
+
+        });
+
+
+
+    /* ==========================================================
+       OPEN APPLICATION
+    ========================================================== */
+
+    function openApplication(role) {
+
+        authScreen.classList.add("hidden");
+
+        app.style.display = "block";
+
+        publicNav.classList.add("hidden");
+
+        privateNav.classList.remove("hidden");
+
+
+        const welcomeTitle =
+            document.getElementById("welcomeTitle");
+
+        const welcomeText =
+            document.getElementById("welcomeText");
+
+
+        if (role === "admin") {
+
+            welcomeTitle.textContent =
+                "Welcome, Admin";
+
+            welcomeText.textContent =
+                "You are logged in as Administrator. "
+                + "You can manage the complete ShopMate system.";
+
+            document
+                .getElementById("admin-dashboard")
+                .scrollIntoView({
+                    behavior: "smooth"
+                });
+
+        }
+
+
+        else if (role === "business") {
+
+            welcomeTitle.textContent =
+                "Welcome, Business Owner";
+
+            welcomeText.textContent =
+                "Manage your business, service requests "
+                + "and customer interactions.";
+
+            document
+                .getElementById("business-dashboard")
+                .scrollIntoView({
+                    behavior: "smooth"
+                });
+
+        }
+
+
+        else {
+
+            welcomeTitle.textContent =
+                "Welcome to ShopMate";
+
+            welcomeText.textContent =
+                "You are logged in as a User. "
+                + "All ShopMate services are now available.";
+
+            document
+                .getElementById("dashboard")
+                .scrollIntoView({
+                    behavior: "smooth"
+                });
+
+        }
+
+    }
+
+
+
+    /* ==========================================================
+       LOGOUT
+    ========================================================== */
+
+    document
+        .getElementById("logoutButton")
+        .addEventListener("click", function () {
+
+
+            localStorage.removeItem(
+                "shopmateLoggedIn"
+            );
+
+            localStorage.removeItem(
+                "shopmateRole"
+            );
+
+            localStorage.removeItem(
+                "shopmateLoginEmail"
+            );
+
+
+            app.style.display =
+                "none";
+
+            authScreen.classList.remove(
+                "hidden"
+            );
+
+
+            publicNav.classList.remove(
+                "hidden"
+            );
+
+            privateNav.classList.add(
+                "hidden"
+            );
+
+
+            document
+                .getElementById("loginForm")
+                .reset();
+
+
+            loginPanel.classList.remove(
+                "hidden"
+            );
+
+            registerPanel.classList.add(
+                "hidden"
+            );
+
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+        });
+
+
+
+    /* ==========================================================
+       CHECK PREVIOUS LOGIN
+    ========================================================== */
+
+    window.addEventListener(
+        "load",
+        function () {
+
+            const loggedIn =
+                localStorage.getItem(
+                    "shopmateLoggedIn"
+                );
+
+            const role =
+                localStorage.getItem(
+                    "shopmateRole"
+                );
+
+
+            if (
+                loggedIn === "true"
+                &&
+                role
+            ) {
+
+                openApplication(role);
+
+            }
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>
